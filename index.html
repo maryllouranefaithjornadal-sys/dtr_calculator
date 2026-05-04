@@ -18,6 +18,9 @@
             background: #f5f5f5;
             min-height: 100vh;
             padding: 20px;
+            margin: 0;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         @keyframes fadeIn {
@@ -32,6 +35,8 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .header {
@@ -41,6 +46,8 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .header h1 {
@@ -48,12 +55,14 @@
             margin-bottom: 10px;
             font-weight: 700;
             letter-spacing: -0.02em;
+            word-wrap: break-word;
         }
 
         .header p {
             font-size: 1.2em;
             opacity: 0.9;
             font-weight: 300;
+            word-wrap: break-word;
         }
 
         .content {
@@ -622,107 +631,143 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 10px;
-                background: #f5f5f5;
+                padding: 8px;
+                margin: 0;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            * {
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             .container {
                 border-radius: 8px;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                margin: 0;
+                padding: 0;
             }
 
             .header {
-                padding: 20px 15px;
+                padding: 15px 12px;
+                width: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
             }
 
             .header h1 {
-                font-size: 1.6em;
+                font-size: 1.4em;
                 margin-bottom: 5px;
+                word-break: break-word;
             }
 
             .header p {
-                font-size: 0.95em;
+                font-size: 0.9em;
+                word-break: break-word;
             }
 
             .content {
                 display: flex;
                 flex-direction: column;
-                padding: 15px;
-                gap: 15px;
+                padding: 12px;
+                gap: 12px;
                 background: #f9f9f9;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
             }
 
             .settings-panel,
             .section {
-                padding: 18px;
+                padding: 15px;
                 border-radius: 8px;
                 border: 1px solid #e0e0e0;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                width: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
             }
 
             .settings-panel h2,
             .section h2 {
-                font-size: 1.2em;
-                margin-bottom: 18px;
+                font-size: 1.1em;
+                margin-bottom: 15px;
+                word-break: break-word;
             }
 
             .settings-group {
-                margin-bottom: 18px;
+                margin-bottom: 15px;
+                width: 100%;
             }
 
             .settings-group label {
-                font-size: 0.9em;
-                margin-bottom: 8px;
+                font-size: 0.85em;
+                margin-bottom: 6px;
+                display: block;
+                word-break: break-word;
             }
 
             .settings-group input[type="time"],
             .settings-group input[type="file"],
             .settings-group textarea {
+                width: 100%;
                 padding: 12px;
                 border: 1px solid #d0d0d0;
                 font-size: 16px;
+                box-sizing: border-box;
             }
 
             .form-group {
                 grid-template-columns: 1fr;
-                gap: 15px;
-                margin-bottom: 18px;
+                gap: 12px;
+                margin-bottom: 15px;
+                width: 100%;
             }
 
             .form-group label {
-                font-size: 0.9em;
+                font-size: 0.85em;
                 margin-bottom: 6px;
+                word-break: break-word;
             }
 
             .form-group input[type="date"],
             .form-group input[type="time"],
             .form-group input[type="text"],
             .form-group select {
+                width: 100%;
                 padding: 12px;
                 border: 1px solid #d0d0d0;
                 font-size: 16px;
+                box-sizing: border-box;
             }
 
             .time-inputs {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                margin-bottom: 18px;
+                gap: 8px;
+                margin-bottom: 15px;
+                width: 100%;
             }
 
             .time-input-group {
                 display: flex;
                 flex-direction: column;
+                width: 100%;
             }
 
             .time-input-group label {
-                font-size: 0.85em;
-                margin-bottom: 6px;
+                font-size: 0.8em;
+                margin-bottom: 4px;
+                word-break: break-word;
             }
 
             .time-input-group input {
-                padding: 12px;
+                width: 100%;
+                padding: 10px;
                 border: 1px solid #d0d0d0;
                 font-size: 16px;
+                box-sizing: border-box;
             }
 
             .time-setting {
@@ -732,24 +777,29 @@
             .button-group {
                 flex-direction: column;
                 gap: 10px;
-                margin-top: 18px;
+                margin-top: 15px;
+                width: 100%;
             }
 
             .button-group .btn {
                 width: 100%;
-                padding: 14px 20px;
+                padding: 14px 12px;
                 min-height: 48px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 1em;
+                font-size: 0.95em;
+                box-sizing: border-box;
             }
 
             .btn {
-                padding: 14px 20px;
+                width: auto;
+                padding: 12px 16px;
                 min-height: 48px;
                 border-radius: 4px;
-                font-size: 0.95em;
+                font-size: 0.9em;
+                box-sizing: border-box;
+                max-width: 100%;
             }
 
             .btn-primary {
@@ -760,69 +810,82 @@
             .summary-cards {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
-                margin-top: 18px;
+                margin-top: 15px;
+                width: 100%;
             }
 
             .card {
-                padding: 15px;
+                padding: 12px;
                 border-radius: 8px;
-                min-height: 120px;
+                min-height: 100px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .card h3 {
-                font-size: 0.8em;
-                margin-bottom: 10px;
+                font-size: 0.75em;
+                margin-bottom: 8px;
+                word-break: break-word;
             }
 
             .card .value {
-                font-size: 1.5em;
+                font-size: 1.4em;
+                word-break: break-word;
             }
 
             .tabs {
                 display: flex;
                 gap: 5px;
-                margin-bottom: 18px;
+                margin-bottom: 15px;
                 border-bottom: 2px solid #e0e0e0;
                 overflow-x: auto;
                 flex-wrap: wrap;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .tab-btn {
-                padding: 10px 15px;
-                font-size: 0.85em;
+                padding: 10px 12px;
+                font-size: 0.8em;
                 white-space: nowrap;
+                min-height: 40px;
             }
 
             .table-wrapper {
                 overflow-x: auto;
-                margin-top: 18px;
+                margin-top: 15px;
                 border-radius: 8px;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
                 -webkit-overflow-scrolling: touch;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             table {
-                min-width: 600px;
-                font-size: 0.85em;
+                width: 100%;
+                min-width: 100%;
+                font-size: 0.8em;
+                box-sizing: border-box;
             }
 
             th {
-                padding: 12px 10px;
-                font-size: 0.85em;
+                padding: 10px 8px;
+                font-size: 0.75em;
                 font-weight: 600;
             }
 
             td {
-                padding: 10px 8px;
-                font-size: 0.85em;
+                padding: 8px 6px;
+                font-size: 0.78em;
+                word-break: break-word;
             }
 
             .status-badge {
-                padding: 6px 10px;
-                font-size: 0.75em;
+                padding: 5px 8px;
+                font-size: 0.7em;
                 border-radius: 4px;
                 display: inline-block;
                 white-space: nowrap;
@@ -842,199 +905,223 @@
             .modal-content {
                 background: #ffffff;
                 margin: 20% auto;
-                padding: 25px 20px;
+                padding: 20px 15px;
                 border-radius: 8px;
                 width: 90%;
                 max-width: 95%;
                 max-height: 90vh;
                 overflow-y: auto;
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+                box-sizing: border-box;
             }
 
             .alert {
-                padding: 15px 18px;
+                padding: 12px 15px;
                 border-radius: 4px;
-                margin-bottom: 15px;
-                font-size: 0.95em;
+                margin-bottom: 12px;
+                font-size: 0.9em;
+                width: 100%;
+                box-sizing: border-box;
+                word-break: break-word;
             }
 
             .main-content {
                 width: 100%;
+                box-sizing: border-box;
             }
         }
 
         @media (max-width: 480px) {
             body {
-                padding: 8px;
+                padding: 6px;
+                margin: 0;
+                width: 100%;
+                overflow-x: hidden;
             }
 
             .header {
-                padding: 15px 12px;
+                padding: 12px 10px;
             }
 
             .header h1 {
-                font-size: 1.3em;
-                margin-bottom: 5px;
+                font-size: 1.2em;
+                margin-bottom: 3px;
             }
 
             .header p {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
 
             .content {
-                padding: 12px;
-                gap: 12px;
+                padding: 10px;
+                gap: 10px;
             }
 
             .settings-panel,
             .section {
-                padding: 15px;
+                padding: 12px;
             }
 
             .settings-panel h2,
             .section h2 {
-                font-size: 1.1em;
-                margin-bottom: 15px;
+                font-size: 1em;
+                margin-bottom: 12px;
             }
 
             .settings-group {
-                margin-bottom: 15px;
+                margin-bottom: 12px;
             }
 
             .settings-group label {
-                font-size: 0.85em;
-                margin-bottom: 6px;
+                font-size: 0.8em;
+                margin-bottom: 5px;
             }
 
             .settings-group input[type="time"],
             .settings-group input[type="file"],
             .settings-group textarea {
-                padding: 12px;
+                padding: 10px;
                 font-size: 16px;
-                border: 1px solid #d0d0d0;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .form-group {
-                gap: 12px;
-                margin-bottom: 15px;
+                gap: 10px;
+                margin-bottom: 12px;
             }
 
             .form-group label {
-                font-size: 0.85em;
+                font-size: 0.8em;
             }
 
             .form-group input[type="date"],
             .form-group input[type="time"],
             .form-group input[type="text"],
             .form-group select {
-                padding: 12px;
+                padding: 10px;
                 font-size: 16px;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .time-inputs {
                 grid-template-columns: 1fr;
-                gap: 10px;
+                gap: 8px;
             }
 
             .button-group {
                 gap: 8px;
-                margin-top: 15px;
+                margin-top: 12px;
             }
 
             .button-group .btn {
-                min-height: 48px;
-                padding: 12px 16px;
+                min-height: 44px;
+                padding: 10px 12px;
                 font-size: 0.9em;
             }
 
             .btn {
-                min-height: 48px;
-                padding: 12px 16px;
-                font-size: 0.9em;
+                min-height: 44px;
+                padding: 10px 12px;
+                font-size: 0.85em;
+                width: auto;
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             .summary-cards {
                 grid-template-columns: 1fr;
-                gap: 10px;
-                margin-top: 15px;
+                gap: 8px;
+                margin-top: 12px;
             }
 
             .card {
-                padding: 15px;
-                min-height: 110px;
+                padding: 12px;
+                min-height: 90px;
             }
 
             .card h3 {
-                font-size: 0.75em;
-                margin-bottom: 8px;
+                font-size: 0.7em;
+                margin-bottom: 6px;
             }
 
             .card .value {
-                font-size: 1.4em;
+                font-size: 1.3em;
             }
 
             .tabs {
                 gap: 3px;
-                margin-bottom: 15px;
+                margin-bottom: 12px;
             }
 
             .tab-btn {
-                padding: 8px 12px;
-                font-size: 0.75em;
-                min-height: 40px;
+                padding: 8px 10px;
+                font-size: 0.7em;
+                min-height: 36px;
             }
 
             table {
-                font-size: 0.8em;
+                font-size: 0.75em;
+                width: 100%;
             }
 
             th {
-                padding: 10px 6px;
-                font-size: 0.75em;
+                padding: 8px 5px;
+                font-size: 0.7em;
             }
 
             td {
-                padding: 8px 5px;
-                font-size: 0.8em;
+                padding: 6px 4px;
+                font-size: 0.73em;
             }
 
             .status-badge {
-                padding: 5px 8px;
+                padding: 4px 6px;
                 font-size: 0.65em;
             }
 
             .modal-content {
                 margin: 30% auto;
-                padding: 20px 15px;
+                padding: 18px 12px;
                 width: 95%;
             }
 
             .modal-close {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .alert {
-                padding: 12px 15px;
-                margin-bottom: 12px;
-                font-size: 0.9em;
+                padding: 10px 12px;
+                margin-bottom: 10px;
+                font-size: 0.85em;
             }
 
             hr {
-                margin: 15px 0;
-            }
-
-            .tab-content {
-                display: none;
-            }
-
-            .tab-content.active {
-                display: block;
+                margin: 12px 0;
             }
         }
 
         @media (max-width: 360px) {
+            body {
+                padding: 4px;
+            }
+
+            .header {
+                padding: 10px 8px;
+            }
+
             .header h1 {
                 font-size: 1.1em;
+            }
+
+            .header p {
+                font-size: 0.75em;
+            }
+
+            .content {
+                padding: 8px;
+                gap: 8px;
             }
 
             .card .value {
@@ -1042,16 +1129,16 @@
             }
 
             table {
-                font-size: 0.75em;
+                font-size: 0.7em;
             }
 
             th, td {
-                padding: 6px 4px;
+                padding: 5px 3px;
             }
 
             .btn {
-                padding: 10px 14px;
-                font-size: 0.85em;
+                padding: 8px 10px;
+                font-size: 0.8em;
             }
         }
 
