@@ -202,6 +202,16 @@ function calculateHoursRendered(morningIn, morningOut, afternoonIn, afternoonOut
             totalMinutes -= morningShiftMinutes;
         }
 
+        // Deduct undertime for early morning out
+        if (morningOut) {
+            const morningOutMinutes = timeToMinutes(morningOut);
+            const designatedMorningOutMinutes = timeToMinutes(designatedTimes.morningOut);
+            if (morningOutMinutes < designatedMorningOutMinutes) {
+                const undertimeMinutes = designatedMorningOutMinutes - morningOutMinutes;
+                totalMinutes -= undertimeMinutes;
+            }
+        }
+
         // Deduct late minutes from afternoon
         if (afternoonIn) {
             const afternoonStatus = checkTardiness(afternoonIn, designatedTimes.afternoonIn);
@@ -211,6 +221,16 @@ function calculateHoursRendered(morningIn, morningOut, afternoonIn, afternoonOut
         } else {
             // No afternoon in time - deduct entire afternoon shift
             totalMinutes -= afternoonShiftMinutes;
+        }
+
+        // Deduct undertime for early afternoon out
+        if (afternoonOut) {
+            const afternoonOutMinutes = timeToMinutes(afternoonOut);
+            const designatedAfternoonOutMinutes = timeToMinutes(designatedTimes.afternoonOut);
+            if (afternoonOutMinutes < designatedAfternoonOutMinutes) {
+                const undertimeMinutes = designatedAfternoonOutMinutes - afternoonOutMinutes;
+                totalMinutes -= undertimeMinutes;
+            }
         }
 
         // Ensure total doesn't go below 0
@@ -288,8 +308,19 @@ function updateUploadedTable() {
 function createTableRow(record, type) {
     const row = document.createElement('tr');
     
-    const morningStatusBadge = getStatusBadge(record.morningStatus);
-    const afternoonStatusBadge = getStatusBadge(record.afternoonStatus);
+    // Check for early outs
+    const morningEarlyOut = checkEarlyOut(record.morningOut, designatedTimes.morningOut);
+    const afternoonEarlyOut = checkEarlyOut(record.afternoonOut, designatedTimes.afternoonOut);
+    
+    // Get status badges - show undertime if early out, otherwise show tardiness
+    const morningStatusBadge = morningEarlyOut.hasEarlyOut 
+        ? '<span class="status-badge badge-early">⏱ Undertime</span>'
+        : getStatusBadge(record.morningStatus);
+    
+    const afternoonStatusBadge = afternoonEarlyOut.hasEarlyOut 
+        ? '<span class="status-badge badge-early">⏱ Undertime</span>'
+        : getStatusBadge(record.afternoonStatus);
+    
     const hoursText = record.hoursRendered.formatted || '0m';
 
     // Handle WFH/Travel records with merged columns
@@ -324,6 +355,28 @@ function createTableRow(record, type) {
     }
 
     return row;
+}
+
+// ========================
+// Early Out Detection
+// ========================
+function checkEarlyOut(actualOutTime, designatedOutTime) {
+    if (!actualOutTime || !designatedOutTime) {
+        return { hasEarlyOut: false, minutes: 0 };
+    }
+
+    const actualMinutes = timeToMinutes(actualOutTime);
+    const designatedMinutes = timeToMinutes(designatedOutTime);
+
+    if (actualMinutes < designatedMinutes) {
+        const undertimeMinutes = designatedMinutes - actualMinutes;
+        return { 
+            hasEarlyOut: true, 
+            minutes: undertimeMinutes,
+            label: `Early by ${undertimeMinutes}min`
+        };
+    }
+    return { hasEarlyOut: false, minutes: 0 };
 }
 
 function getStatusBadge(status) {
@@ -723,20 +776,36 @@ function parseCSV(file) {
 function parseDTRText(text) {
     const records = [];
     
-    // Extract employee name
+    // Extract employee name - improved pattern to find name BEFORE (Name) label
     let employeeName = 'Unknown Employee';
-    const namePatterns = [
-        /Mary\s+Llourane\s+Faith[^A-Z]*/i,
-        /(?:Name\s*:?\s*)([A-Z][a-z]+\s+[A-Z][a-z]+[^\n]*)/i,
-        /^([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/m
-    ];
     
-    for (const pattern of namePatterns) {
-        const match = text.match(pattern);
-        if (match) {
-            employeeName = match[0].replace(/n\/a/i, '').replace(/Jornadal/i, '').trim();
-            if (employeeName.length > 2 && employeeName.length < 100) {
-                break;
+    // Try to find name that appears BEFORE (Name) label - captures the line before it
+    const nameBeforeLabelMatch = text.match(/([A-Z][A-Za-z\s]+[A-Z][a-z]*)\s*\n*\s*\(Name\)/);
+    if (nameBeforeLabelMatch && nameBeforeLabelMatch[1]) {
+        const candidateName = nameBeforeLabelMatch[1].trim();
+        // Avoid matching form field indicators
+        if (candidateName && !candidateName.toLowerCase().includes('form') && !candidateName.toLowerCase().includes('civil') && candidateName.length > 4) {
+            employeeName = candidateName;
+        }
+    }
+    
+    // Fallback patterns if above didn't work
+    if (employeeName === 'Unknown Employee') {
+        const namePatterns = [
+            /Mary\s+Llourane\s+Faith[^A-Z]*/i,
+            /([A-Z][a-z]+\s+[A-Z][a-z]+\s+[A-Z][a-z]+\s+[A-Z][a-z]+)/,
+            /(?:Name\s*:?\s*)([A-Z][a-z]+\s+[A-Z][a-z]+[^\n]*)/i,
+            /^([A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/m
+        ];
+        
+        for (const pattern of namePatterns) {
+            const match = text.match(pattern);
+            if (match) {
+                const candidateName = match[1] ? match[1] : match[0];
+                employeeName = candidateName.replace(/n\/a/i, '').replace(/Jornadal/i, '').replace(/Civil Service/i, '').trim();
+                if (employeeName.length > 2 && employeeName.length < 100 && !employeeName.toLowerCase().includes('form')) {
+                    break;
+                }
             }
         }
     }
